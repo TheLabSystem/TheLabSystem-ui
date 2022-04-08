@@ -132,14 +132,16 @@ import { NumberRow24Regular as Verify } from '@vicons/fluent'
 import { UserCircleRegular as UserCircle } from '@vicons/fa'
 import { Password, Types } from '@vicons/carbon'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import { reactive, toRefs } from 'vue'
-import { login as apiLogin } from '@/api/login';
+import { login as apiLogin } from '@/api/login'
 
 export default {
   setup() {
     const icons = { UserCircle, Password, Types, Verify }
     const message = useMessage()
     const router = useRouter()
+    const store = useStore()
     const events = reactive({
       user_name: '',
       password: '',
@@ -174,16 +176,22 @@ export default {
         return
       }
       createMessage('loading', !register ? '登陆中...' : '注册中...')
-      const res = await apiLogin({
-        username: events.user_name,
-        password: events.password,
-      });
-      console.log(res);
-      // msgReactive.type = 'success'
-      // msgReactive.content = `${
-      //   !register ? '登陆' : '注册'
-      // }成功！欢迎，${userName}`
-      // router.push('/home')
+      if (!register) {
+        const res = await apiLogin({
+          username: events.user_name,
+          password: events.password,
+        })
+        if (res.Code == 0) {
+          const user = res.Data.User
+          msgReactive.type = 'success'
+          msgReactive.content = `登陆成功！欢迎，${user.display_name}`
+          store.commit('changeUser', user)
+        } else {
+          msgReactive.type = 'error'
+          msgReactive.content = res.Data.message
+        }
+      } else {
+      }
     }
     return {
       ...icons,
