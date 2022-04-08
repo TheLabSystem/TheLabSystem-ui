@@ -10,7 +10,7 @@
         @select="handleSelect"
       >
         <span>
-          你好！{{ user ? user["user-type"] + "-" + user.display_name : "" }} &gt;
+          你好！{{ user ? user["user-type"] + "-" + user.display_name : "" }} &gt;&nbsp;&nbsp;
         </span>
       </n-dropdown>
     </div>
@@ -75,9 +75,10 @@ export default defineComponent({
   position: relative;
   width: 100%;
   height: 8vh;
-  margin: 1vh 1vw;
+  padding: 1vh 1vw;
   line-height: 8vh;
   vertical-align: middle;
+  border-bottom: 1px solid #666666;
   > * {
     display: inline-block;
   }

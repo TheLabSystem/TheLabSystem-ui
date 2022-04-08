@@ -28,6 +28,7 @@
 <script>
 import { h, defineComponent, reactive, toRefs } from 'vue'
 import { NLayout, NLayoutSider, NIcon, NMenu } from 'naive-ui'
+import { RouterLink } from 'vue-router'
 import router from '@/router'
 import Header from '../components/header.vue'
 import {
@@ -51,7 +52,15 @@ const getMenuOptions = () => {
   const options = routes.reduce((prev, curr) => {
     if (curr.meta.perm && userPerm >= curr.meta.perm) {
       prev.push({
-        label: curr.name,
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: curr.path,
+            },
+          },
+          { default: () => curr.name }
+        ),
         key: curr.path,
         icon: renderIcon(BookIcon),
       });
