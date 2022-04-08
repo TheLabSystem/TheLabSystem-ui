@@ -19,6 +19,7 @@
       />
     </n-layout-sider>
     <n-layout>
+      <Header></Header>
       <h1 style="text-align: center">这是功能区域</h1>
       <h2 style="text-align: right; padding-right: 20px">
         旁边的logo是随便找了张图放上去（bushi
@@ -30,6 +31,7 @@
 <script>
 import { h, defineComponent, reactive, toRefs } from 'vue'
 import { NLayout, NLayoutSider, NIcon, NMenu } from 'naive-ui'
+import Header from '../components/header.vue'
 import {
   BookOutline as BookIcon,
   PersonOutline as PersonIcon,
@@ -133,6 +135,7 @@ export default defineComponent({
     NLayout,
     NLayoutSider,
     NMenu,
+    Header,
   },
 })
 </script>
