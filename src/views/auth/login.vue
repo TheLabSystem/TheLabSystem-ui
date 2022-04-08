@@ -186,6 +186,7 @@ export default {
           msgReactive.type = 'success'
           msgReactive.content = `登陆成功！欢迎，${user.display_name}`
           store.commit('changeUser', user)
+          router.push('/')
         } else {
           msgReactive.type = 'error'
           msgReactive.content = res.Data.message

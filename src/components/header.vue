@@ -4,7 +4,7 @@
     <div class="welcome">
       <img src="../assets/logo-small.png" />
       <span
-        >你好！{{ user ? user.user_type + '-' + user.display_name : '' }}</span
+        >你好！{{ user ? user['user-type'] + '-' + user.display_name : '' }}</span
       >
       <n-dropdown
         trigger="hover"
@@ -20,7 +20,8 @@
 
 <script>
 import { NButton, NDropdown } from 'naive-ui'
-import { defineComponent, ref } from 'vue'
+import { defineComponent ,ref} from 'vue'
+import { whoAmI } from '@/api/user'
 import { useStore } from 'vuex'
 const options = [
   {
@@ -34,7 +35,16 @@ const options = [
 ]
 export default defineComponent({
   setup(props) {
-    const user = ref(useStore())
+    const store = useStore();
+    let user = ref(store.getters.getUser);
+    const getUserInfo = async () => {
+      const res = await whoAmI();
+      store.commit('changeUser', res.Data.User);
+      user.value = res.Data.User;
+    };
+    if (user.value === null) {
+      getUserInfo();
+    }
     function handleSelect(key) {
       alert(key)
     }
