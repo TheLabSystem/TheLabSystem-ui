@@ -3,62 +3,71 @@
     <h2>xxx实验室设备管理系统</h2>
     <div class="welcome">
       <img src="../assets/logo-small.png" />
-      <span
-        >你好！{{ user ? user['user-type'] + '-' + user.display_name : '' }}</span
-      >
       <n-dropdown
         trigger="hover"
         placement="bottom-start"
         :options="options"
         @select="handleSelect"
       >
-        &gt;
+        <span>
+          你好！{{ user ? user["user-type"] + "-" + user.display_name : "" }} &gt;
+        </span>
       </n-dropdown>
     </div>
   </div>
 </template>
 
 <script>
-import { NButton, NDropdown } from 'naive-ui'
-import { defineComponent ,ref} from 'vue'
-import { whoAmI } from '@/api/user'
-import { useStore } from 'vuex'
+import { NButton, NDropdown } from "naive-ui";
+import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+import { whoAmI, logout } from "@/api/auth";
+import { useStore } from "vuex";
 const options = [
   {
-    label: '个人中心',
-    key: 'personal center',
+    label: "个人中心",
+    key: "personal center",
   },
   {
-    label: '登出',
-    key: 'logout',
+    label: "登出",
+    key: "logout",
   },
-]
+];
 export default defineComponent({
   setup(props) {
     const store = useStore();
+    const router = useRouter();
     let user = ref(store.getters.getUser);
     const getUserInfo = async () => {
       const res = await whoAmI();
-      store.commit('changeUser', res.Data.User);
+      store.commit("changeUser", res.Data.User);
       user.value = res.Data.User;
     };
     if (user.value === null) {
       getUserInfo();
     }
     function handleSelect(key) {
-      alert(key)
+      if (key === "logout") {
+        logout().then(() => {
+          store.commit("changeUser", null);
+          user.value = null;
+          router.push("/auth/login");
+        });
+      } else if (key === "personal center") {
+        router.push("/profile");
+      }
     }
     return {
       user,
       options,
       handleSelect,
-    }
+    };
   },
   components: {
     NButton,
     NDropdown,
   },
-})
+});
 </script>
 
 <style lang="scss" scoped>
