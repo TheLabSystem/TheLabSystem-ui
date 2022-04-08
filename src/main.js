@@ -8,7 +8,7 @@ router.beforeEach((to, from, next) => {
   if (to.path !== '/login' && !getCookie('camp-session')) {
     next({ path: '/login' })
   } else {
-    // if (to.perm && store.state.user.perm < to.perm) {
+    // if (to.hasOwnProperty('perm') && store.state.user.perm < to.perm) {
     //   next({ path: '/home' })
     // } else {
     //   next()
