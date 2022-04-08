@@ -134,7 +134,7 @@ import { Password, Types } from '@vicons/carbon'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { reactive, toRefs } from 'vue'
-import { login as apiLogin } from '@/api/login'
+import { login as apiLogin } from '@/api/auth'
 
 export default {
   setup() {
