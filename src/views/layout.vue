@@ -20,12 +20,7 @@
     </n-layout-sider>
     <n-layout>
       <Header></Header>
-      <h1 style="text-align: center">
-        <router-view />
-      </h1>
-      <h2 style="text-align: right; padding-right: 20px">
-        旁边的logo是随便找了张图放上去（bushi
-      </h2>
+      <router-view></router-view>
     </n-layout>
   </n-layout>
 </template>
@@ -44,74 +39,66 @@ function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
-const menuOptions = [
+const menuOptions0 = [
+  // 设备管理员可用功能
   {
-    label: '且听风吟',
+    label: '借用申请审批',
     key: 'hear-the-wind-sing',
     icon: renderIcon(BookIcon),
   },
   {
-    label: '1973年的弹珠玩具',
+    label: '可借用设备查询',
     key: 'pinball-1973',
     icon: renderIcon(BookIcon),
-    children: [
-      {
-        label: '鼠',
-        key: 'rat',
-      },
-    ],
   },
   {
-    label: '寻羊冒险记',
+    label: '记录设备状态',
     key: 'a-wild-sheep-chase',
     icon: renderIcon(BookIcon),
   },
   {
-    label: '舞，舞，舞',
+    label: '借用资格核查',
     key: 'dance-dance-dance',
+    icon: renderIcon(BookIcon),
+  },
+  {
+    label: '管理计划查看',
+    key: 'dan1',
+    icon: renderIcon(BookIcon),
+  },
+]
+
+const menuOptions = [
+  //实验室负责人
+  {
+    label: '借用申请审批',
+    key: 'hear-the-wind-sing',
+    icon: renderIcon(BookIcon),
+  },
+  {
+    label: '可借用设备查询',
+    key: 'pinball-1973',
+    icon: renderIcon(BookIcon),
+  },
+  {
+    label: '管理计划制定',
+    key: 'h1231234',
+    icon: renderIcon(BookIcon),
+  },
+  {
+    label: '设备管理',
+    key: 'pi12313213',
     icon: renderIcon(BookIcon),
     children: [
       {
-        type: 'group',
-        label: '人物',
-        key: 'people',
-        children: [
-          {
-            label: '叙事者',
-            key: 'narrator',
-            icon: renderIcon(PersonIcon),
-          },
-          {
-            label: '羊男',
-            key: 'sheep-man',
-            icon: renderIcon(PersonIcon),
-          },
-        ],
+        label: '设备采购',
+        key: 'shebeicaigou',
+        icon: renderIcon(BookIcon),
       },
       {
-        label: '饮品',
-        key: 'beverage',
-        icon: renderIcon(WineIcon),
-        children: [
-          {
-            label: '威士忌',
-            key: 'whisky',
-          },
-        ],
-      },
-      {
-        label: '食物',
-        key: 'food',
-        children: [
-          {
-            label: '三明治',
-            key: 'sandwich',
-          },
-        ],
-      },
-      {
-        label: '过去增多，未来减少',
-        key: 'the-past-increases-the-future-recedes',
+        label: '设备报废',
+        key: 'h888',
+        icon: renderIcon(BookIcon),
       },
     ],
   },
