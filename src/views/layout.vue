@@ -30,7 +30,9 @@ import { h, defineComponent, reactive, toRefs } from 'vue'
 import { NLayout, NLayoutSider, NIcon, NMenu } from 'naive-ui'
 import router from '@/router'
 import Header from '../components/header.vue'
-import { BookOutline as BookIcon } from '@vicons/ionicons5'
+import {
+  BookOutline as BookIcon,
+} from '@vicons/ionicons5'
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
@@ -44,19 +46,19 @@ function renderIcon(icon) {
 //   },
 // ]
 const getMenuOptions = () => {
-  const routes = router.getRoutes()
-  const userPerm = 255 // TODO: get user perm from vuex
+  const routes = router.getRoutes();
+  const userPerm = 255; // TODO: get user perm from vuex
   const options = routes.reduce((prev, curr) => {
     if (curr.meta.perm && userPerm >= curr.meta.perm) {
       prev.push({
         label: curr.name,
         key: curr.path,
         icon: renderIcon(BookIcon),
-      })
+      });
     }
-    return prev
-  }, [])
-  return options
+    return prev;
+  }, []);
+  return options;
 }
 
 export default defineComponent({
