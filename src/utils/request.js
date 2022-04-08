@@ -29,27 +29,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    if (error.response && error.response.data.errors) {
-      Message({
-        message: error.response.data.errors[0].defaultMessage,
-        type: 'error',
-        duration: 5 * 1000
-      })
-    } else {
-      if (error.response && error.response.data.message) {
-        Message({
-          message: error.response.data.message,
-          type: 'error',
-          duration: 5 * 1000
-        })
-      } else {
-        Message({
-          message: error.message,
-          type: 'error',
-          duration: 5 * 1000
-        })
-      }
-    }
+    alert(error)
     return Promise.reject(error)
   }
 )

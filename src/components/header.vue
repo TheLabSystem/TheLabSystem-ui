@@ -3,19 +3,51 @@
     <h2>xxx实验室设备管理系统</h2>
     <div class="welcome">
       <img src="../assets/logo-small.png" />
-      <span>你好！身份-姓名</span>
+      <span
+        >你好！{{ user ? user.user_type + '-' + user.display_name : '' }}</span
+      >
+      <n-dropdown
+        trigger="hover"
+        placement="bottom-start"
+        :options="options"
+        @select="handleSelect"
+      >
+        &gt;
+      </n-dropdown>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-
+import { NButton, NDropdown } from 'naive-ui'
+import { defineComponent, ref } from 'vue'
+import { useStore } from 'vuex'
+const options = [
+  {
+    label: '个人中心',
+    key: 'personal center',
+  },
+  {
+    label: '登出',
+    key: 'logout',
+  },
+]
 export default defineComponent({
   setup(props) {
-    return {}
+    const user = ref(useStore())
+    function handleSelect(key) {
+      alert(key)
+    }
+    return {
+      user,
+      options,
+      handleSelect,
+    }
   },
-  components: {},
+  components: {
+    NButton,
+    NDropdown,
+  },
 })
 </script>
 
