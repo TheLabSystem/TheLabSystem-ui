@@ -133,6 +133,7 @@ import { UserCircleRegular as UserCircle } from '@vicons/fa'
 import { Password, Types } from '@vicons/carbon'
 import { useRouter } from 'vue-router'
 import { reactive, toRefs } from 'vue'
+import { login as apiLogin } from '@/api/login';
 
 export default {
   setup() {
@@ -173,15 +174,16 @@ export default {
         return
       }
       createMessage('loading', !register ? '登陆中...' : '注册中...')
-      let p = new Promise((resolve) =>
-        setTimeout(resolve, 1000, events.user_name)
-      )
-      let userName = await p
-      msgReactive.type = 'success'
-      msgReactive.content = `${
-        !register ? '登陆' : '注册'
-      }成功！欢迎，${userName}`
-      router.push('/home')
+      const res = await apiLogin({
+        username: events.user_name,
+        password: events.password,
+      });
+      console.log(res);
+      // msgReactive.type = 'success'
+      // msgReactive.content = `${
+      //   !register ? '登陆' : '注册'
+      // }成功！欢迎，${userName}`
+      // router.push('/home')
     }
     return {
       ...icons,
