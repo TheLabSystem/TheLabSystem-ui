@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Login from '@/view/login.vue'
-import MainView from '@/view/mainView.vue'
+import Home from '@/view/home.vue'
 const routes = [{
   path: '/',
   redirect: '/login'
@@ -9,7 +9,7 @@ const routes = [{
   component: Login
 }, {
   path: '/home',
-  component: MainView
+  component: Home
 }]
 
 const router = createRouter({

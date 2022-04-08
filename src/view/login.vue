@@ -93,7 +93,7 @@
             round
             class="form-component"
             placeholder="请输入验证码（校外人员不必填写）"
-            v-model:value="user_type"
+            v-model:value="verify_code"
           >
             <template #prefix>
               <n-icon :component="Verify"> </n-icon>
@@ -142,8 +142,8 @@ export default {
     const events = reactive({
       user_name: '',
       password: '',
-      user_type: '',
-      verify_code: '',
+      user_type: null,
+      verify_code: null,
     })
     let msgReactive = null
     function createMessage(type = 'success', info = '', duration = 3000) {
@@ -153,6 +153,10 @@ export default {
       })
     }
     async function login(register = false) {
+      if (register) {
+        console.log(events.user_type, typeof events.user_type)
+        console.log(events.verify_code, typeof events.verify_code)
+      }
       if (!events.user_name) {
         createMessage('warning', '请输入用户名')
         return
@@ -162,6 +166,10 @@ export default {
       }
       if (register && !events.user_type) {
         createMessage('warning', '请输入用户类型')
+        return
+      }
+      if (register && events.user_type != 1 && !events.verify_code) {
+        createMessage('warning', '非校外人员请输入验证码', 4000)
         return
       }
       createMessage('loading', !register ? '登陆中...' : '注册中...')
