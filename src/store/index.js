@@ -5,6 +5,9 @@ export default createStore({
     user: null
   },
   getters: {
+    getUser (state) {
+      return state.user
+    }
   },
   mutations: {
     changeUser (state, user) {
