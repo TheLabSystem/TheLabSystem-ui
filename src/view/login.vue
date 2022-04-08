@@ -1,36 +1,35 @@
 <template>
   <div class="container">
-    <n-card class="login" title="欢迎使用实验室设备预约系统！">
+    <n-card class="login" title="欢迎使用xx实验室设备预约系统！">
       <n-tabs size="large" animated>
+        <!-- 登陆部分开始 -->
         <n-tab-pane name="signin" tab="登录">
-          <n-form>
-            <n-input
-              size="large"
-              clearable
-              round
-              class="form-component"
-              placeholder="请输入用户名"
-              v-model:value="user_name"
-            >
-              <template #prefix>
-                <n-icon :component="UserCircle"> </n-icon>
-              </template>
-            </n-input>
-            <n-input
-              size="large"
-              type="password"
-              clearable
-              round
-              show-password-on="click"
-              class="form-component"
-              placeholder="请输入密码"
-              v-model:value="password"
-            >
-              <template #prefix>
-                <n-icon :component="Password"> </n-icon>
-              </template>
-            </n-input>
-          </n-form>
+          <n-input
+            size="large"
+            clearable
+            round
+            class="form-component"
+            placeholder="请输入用户名"
+            v-model:value="user_name"
+          >
+            <template #prefix>
+              <n-icon :component="UserCircle"> </n-icon>
+            </template>
+          </n-input>
+          <n-input
+            size="large"
+            type="password"
+            clearable
+            round
+            show-password-on="click"
+            class="form-component"
+            placeholder="请输入密码"
+            v-model:value="password"
+          >
+            <template #prefix>
+              <n-icon :component="Password"> </n-icon>
+            </template>
+          </n-input>
           <n-button
             type="primary"
             size="large"
@@ -38,7 +37,7 @@
             block
             secondary
             strong
-            @click="login"
+            @click="login(false)"
           >
             登录
           </n-button>
@@ -46,59 +45,60 @@
             <a href="#">忘记密码？</a>
           </div>
         </n-tab-pane>
+        <!-- 登陆部分结束 -->
+
+        <!-- 注册部分开始 -->
         <n-tab-pane name="signup" tab="注册">
-          <n-form>
-            <n-input
-              size="large"
-              clearable
-              round
-              class="form-component"
-              placeholder="请输入用户名"
-              v-model:value="user_name"
-            >
-              <template #prefix>
-                <n-icon :component="UserCircle"> </n-icon>
-              </template>
-            </n-input>
-            <n-input
-              size="large"
-              type="password"
-              clearable
-              round
-              show-password-on="click"
-              class="form-component"
-              placeholder="请输入密码"
-              v-model:value="password"
-            >
-              <template #prefix>
-                <n-icon :component="Password"> </n-icon>
-              </template>
-            </n-input>
-            <n-input
-              size="large"
-              clearable
-              round
-              class="form-component"
-              placeholder="请输入要注册的用户类型"
-              v-model:value="user_type"
-            >
-              <template #prefix>
-                <n-icon :component="Types"> </n-icon>
-              </template>
-            </n-input>
-            <n-input
-              size="large"
-              clearable
-              round
-              class="form-component"
-              placeholder="请输入验证码（校外人员不必填写）"
-              v-model:value="user_type"
-            >
-              <template #prefix>
-                <n-icon :component="Verify"> </n-icon>
-              </template>
-            </n-input>
-          </n-form>
+          <n-input
+            size="large"
+            clearable
+            round
+            class="form-component"
+            placeholder="请输入用户名"
+            v-model:value="user_name"
+          >
+            <template #prefix>
+              <n-icon :component="UserCircle"> </n-icon>
+            </template>
+          </n-input>
+          <n-input
+            size="large"
+            type="password"
+            clearable
+            round
+            show-password-on="click"
+            class="form-component"
+            placeholder="请输入密码"
+            v-model:value="password"
+          >
+            <template #prefix>
+              <n-icon :component="Password"> </n-icon>
+            </template>
+          </n-input>
+          <n-input
+            size="large"
+            clearable
+            round
+            class="form-component"
+            placeholder="请输入要注册的用户类型"
+            v-model:value="user_type"
+          >
+            <template #prefix>
+              <n-icon :component="Types"> </n-icon>
+            </template>
+          </n-input>
+          <n-input
+            size="large"
+            clearable
+            round
+            class="form-component"
+            placeholder="请输入验证码（校外人员不必填写）"
+            v-model:value="user_type"
+          >
+            <template #prefix>
+              <n-icon :component="Verify"> </n-icon>
+            </template>
+          </n-input>
           <n-button
             type="primary"
             size="large"
@@ -106,11 +106,12 @@
             block
             secondary
             strong
-            @click="login"
+            @click="login(true)"
           >
             注册
           </n-button>
         </n-tab-pane>
+        <!-- 注册部分结束 -->
       </n-tabs>
     </n-card>
   </div>
@@ -123,7 +124,6 @@ import {
   NTabPane,
   NInput,
   NButton,
-  NForm,
   NFormItemRow,
   NIcon,
   useMessage,
@@ -131,12 +131,14 @@ import {
 import { NumberRow24Regular as Verify } from '@vicons/fluent'
 import { UserCircleRegular as UserCircle } from '@vicons/fa'
 import { Password, Types } from '@vicons/carbon'
+import { useRouter } from 'vue-router'
 import { reactive, toRefs } from 'vue'
 
 export default {
   setup() {
     const icons = { UserCircle, Password, Types, Verify }
     const message = useMessage()
+    const router = useRouter()
     const events = reactive({
       user_name: '',
       password: '',
@@ -150,7 +152,7 @@ export default {
         duration: duration,
       })
     }
-    async function login() {
+    async function login(register = false) {
       if (!events.user_name) {
         createMessage('warning', '请输入用户名')
         return
@@ -158,13 +160,20 @@ export default {
         createMessage('warning', '请输入密码')
         return
       }
-      createMessage('loading', '登陆中...')
+      if (register && !events.user_type) {
+        createMessage('warning', '请输入用户类型')
+        return
+      }
+      createMessage('loading', !register ? '登陆中...' : '注册中...')
       let p = new Promise((resolve) =>
         setTimeout(resolve, 1000, events.user_name)
       )
       let userName = await p
-      msgReactive.content = `登陆成功！欢迎，${userName}`
       msgReactive.type = 'success'
+      msgReactive.content = `${
+        !register ? '登陆' : '注册'
+      }成功！欢迎，${userName}`
+      router.push('/home')
     }
     return {
       ...icons,
@@ -178,7 +187,6 @@ export default {
     NTabPane,
     NInput,
     NButton,
-    NForm,
     NFormItemRow,
     NIcon,
   },

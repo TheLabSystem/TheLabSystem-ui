@@ -1,19 +1,15 @@
 <template>
   <n-message-provider>
-    <login></login>
+    <router-view></router-view>
   </n-message-provider>
 </template>
 
 <script>
 import { NMessageProvider } from 'naive-ui'
-import mainView from '@/view/mainView.vue'
-import login from '@/view/login.vue'
 export default {
   setup() {},
   components: {
     NMessageProvider,
-    mainView,
-    login,
   },
 }
 </script>
