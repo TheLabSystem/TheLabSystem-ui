@@ -28,6 +28,7 @@
 <script>
 import { h, defineComponent, reactive, toRefs } from 'vue'
 import { NLayout, NLayoutSider, NIcon, NMenu } from 'naive-ui'
+import { RouterLink } from 'vue-router'
 import router from '@/router'
 import Header from '../components/header.vue'
 import { BookOutline as BookIcon } from '@vicons/ionicons5'
