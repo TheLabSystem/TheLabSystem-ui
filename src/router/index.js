@@ -9,16 +9,23 @@ const routes = [{
   component: () => import('@/views/auth/login.vue'),
 },
 {
-  path: '/home',
-  name: '首页',
+  path: '/',
   component: () => import('@/views/layout.vue'),
+  redirect: {
+    path: '/home',
+  },
   children: [
+    {
+      path: '/home',
+      name: '首页',
+      meta: {
+        perm: 0,
+      },
+      component: () => import('@/views/home/home.vue'),
+    },
     {
       path: '/profile',
       name: '个人中心',
-      meta: {
-        perm: 1,
-      },
       component: () => import('@/views/profile/profile.vue'),
     },
     {
