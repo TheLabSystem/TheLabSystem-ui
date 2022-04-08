@@ -1,15 +1,18 @@
 <template>
   <n-message-provider>
-    <router-view></router-view>
+    <n-dialog-provider>
+      <router-view />
+    </n-dialog-provider>
   </n-message-provider>
 </template>
 
 <script>
-import { NMessageProvider } from 'naive-ui'
+import { NMessageProvider, NDialogProvider } from 'naive-ui'
 export default {
   setup() {},
   components: {
     NMessageProvider,
+    NDialogProvider,
   },
 }
 </script>
