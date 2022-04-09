@@ -1,35 +1,87 @@
 <template>
-  <NCard title="学生管理" style="width: 98%; margin: 10px 1%; min-height: 85%;">
-    <NDataTable :columns="columns" />
+  <NCard title="学生管理" style="width: 98%; margin: 10px 1%; min-height: 85%">
+    <NSpace vertical>
+      <NSpace>
+        <NInput v-model:value="studentId" type="text" placeholder="输入学号" />
+        <NButton type="primary" @click="insertStudent(studentId)"
+          >添加学生</NButton
+        >
+      </NSpace>
+      <NDataTable :columns="columns" :data="students" />
+    </NSpace>
   </NCard>
 </template>
 <script>
-import { NCard, NDataTable, NButton } from 'naive-ui';
+import {
+  NCard,
+  NDataTable,
+  NButton,
+  NSpace,
+  NInput,
+  useMessage,
+} from "naive-ui";
+import { viewStudent, deleteStudent, addStudent } from "@/api/student";
+import { ref, h } from "vue";
 
-const columns = [
-  {
-    title: "学号",
-  },
-  {
-    title: "姓名",
-  },
-  {
-    title: "操作",
-    render(row) {
-      return  h(NButton, {
-        type: "error",
-        onClick: () => removeStudent(row),
-      }, { default: "删除" });
-    }
-  },
-];
+const getColumns = (removeStudent) => {
+  return [
+    {
+      title: "学号",
+      key: "StudentID",
+    },
+    {
+      title: "姓名",
+      key: "TeacherID",
+    },
+    {
+      title: "操作",
+      render(row) {
+        return h(
+          NButton,
+          {
+            type: "error",
+            onClick: () => removeStudent(row.StudentID),
+          },
+          { default: () => "删除" }
+        );
+      },
+    },
+  ];
+};
 export default {
   setup() {
-
+    const students = ref([]);
+    const getStudents = async () => {
+      const res = await viewStudent();
+      students.value = res.Data.mentorRecords;
+    };
+    const removeStudent = (id) => {
+      deleteStudent(id).then(() => {
+        message.error("删除成功");
+        getStudents();
+      });
+    };
+    const insertStudent = (id) => {
+      addStudent(id).then(async () => {
+        message.success("添加成功");
+        getStudents();
+      });
+    };
+    getStudents();
+    const message = useMessage();
+    return {
+      columns: getColumns(removeStudent),
+      insertStudent,
+      students,
+      studentId: ref(null),
+    };
   },
   components: {
     NCard,
-    NDataTable
+    NDataTable,
+    NButton,
+    NSpace,
+    NInput,
   },
-}
+};
 </script>
