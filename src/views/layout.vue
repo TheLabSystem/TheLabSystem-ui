@@ -31,43 +31,32 @@ import { NLayout, NLayoutSider, NIcon, NMenu } from 'naive-ui'
 import { RouterLink } from 'vue-router'
 import router from '@/router'
 import Header from '../components/header.vue'
-import {
-  BookOutline as BookIcon,
-} from '@vicons/ionicons5'
+import { BookOutline as BookIcon } from '@vicons/ionicons5'
+import { RouterLink } from 'vue-router'
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
-// const menuOptions = [
-//   {
-//     label: '且听风吟',
-//     key: 'hear-the-wind-sing',
-//     icon: renderIcon(BookIcon),
-//   },
-// ]
 const getMenuOptions = () => {
-  const routes = router.getRoutes();
-  const userPerm = 255; // TODO: get user perm from vuex
+  const routes = router.getRoutes()
+  const userPerm = 255 // TODO: get user perm from vuex
   const options = routes.reduce((prev, curr) => {
     if (curr.meta.perm && userPerm >= curr.meta.perm) {
       prev.push({
-        label: () => h(
-          RouterLink,
-          {
-            to: {
-              path: curr.path,
-            },
-          },
-          { default: () => curr.name }
-        ),
+        label: () =>
+          h(
+            RouterLink,
+            { to: { path: curr.path } },
+            { default: () => curr.name }
+          ),
         key: curr.path,
         icon: renderIcon(BookIcon),
-      });
+      })
     }
-    return prev;
-  }, []);
-  return options;
+    return prev
+  }, [])
+  return options
 }
 
 export default defineComponent({
