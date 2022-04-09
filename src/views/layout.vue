@@ -32,7 +32,6 @@ import { RouterLink } from 'vue-router'
 import router from '@/router'
 import Header from '../components/header.vue'
 import { BookOutline as BookIcon } from '@vicons/ionicons5'
-import { RouterLink } from 'vue-router'
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
@@ -42,7 +41,7 @@ const getMenuOptions = () => {
   const routes = router.getRoutes()
   const userPerm = 255 // TODO: get user perm from vuex
   const options = routes.reduce((prev, curr) => {
-    if (curr.meta.perm && userPerm >= curr.meta.perm) {
+    if (curr.meta.hasOwnProperty('perm') && userPerm >= curr.meta.perm) {
       prev.push({
         label: () =>
           h(
