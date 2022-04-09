@@ -46,6 +46,7 @@ const getColumns = ({showApprovalDetails, acceptApproval, rejectApproval}) => [
           type: "info",
           onClick: () => showApprovalDetails(row),
         }, { default: "详情" }),
+        // TODO: 已审批的不用按钮
         h(NButton, {
           type: "success",
           onClick: () => acceptApproval(row.ReservationID),
@@ -89,6 +90,7 @@ export default {
         getAllApproval();
       });
     };
+    getAllApproval();
     const columns = getColumns({
       showApprovalDetails,
       acceptApproval,
