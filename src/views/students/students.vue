@@ -26,11 +26,11 @@ import { ref, h } from "vue";
 const getColumns = (removeStudent) => [
   {
     title: "学号",
-    key: "StudentID",
+    key: "user_id",
   },
   {
     title: "姓名",
-    key: "TeacherID",
+    key: "display_name",
   },
   {
     title: "操作",
@@ -39,7 +39,7 @@ const getColumns = (removeStudent) => [
         NButton,
         {
           type: "error",
-          onClick: () => removeStudent(row.StudentID),
+          onClick: () => removeStudent(row.user_id),
         },
         { default: () => "删除" }
       );
@@ -51,7 +51,7 @@ export default {
     const students = ref([]);
     const getStudents = async () => {
       const res = await viewStudent();
-      students.value = res.Data.mentorRecords;
+      students.value = res.Data.users;
     };
     const removeStudent = (id) => {
       deleteStudent(id).then(() => {

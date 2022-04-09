@@ -7,6 +7,7 @@
 import { NCard, NDataTable, NButton, useDialog, useMessage } from 'naive-ui';
 import { getApproval, setApproval } from '@/api/approval';
 import ApprovalDetails from './components/ApprovalDetail';
+import { ref, h } from 'vue';
 
 const getColumns = ({showApprovalDetails, acceptApproval, rejectApproval}) => [
   {
