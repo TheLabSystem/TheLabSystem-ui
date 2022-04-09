@@ -12,7 +12,6 @@
     >
       <div :class="collapsed ? 'collapsed-logo' : 'logo'"></div>
       <n-menu
-        :inverted="inverted"
         :collapsed-width="64"
         :collapsed-icon-size="22"
         :options="menuOptions"
@@ -32,7 +31,6 @@ import { RouterLink } from 'vue-router'
 import router from '@/router'
 import Header from '../components/header.vue'
 import { BookOutline as BookIcon } from '@vicons/ionicons5'
-import { RouterLink } from 'vue-router'
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })

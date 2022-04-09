@@ -1,15 +1,18 @@
 <template>
   <n-message-provider>
-    <router-view></router-view>
+    <n-dialog-provider>
+      <router-view></router-view>
+    </n-dialog-provider>
   </n-message-provider>
 </template>
 
 <script>
-import { NMessageProvider } from 'naive-ui'
+import { NMessageProvider, NDialogProvider } from 'naive-ui'
 export default {
   setup() {},
   components: {
     NMessageProvider,
+    NDialogProvider,
   },
 }
 </script>
@@ -25,5 +28,18 @@ a {
 }
 a:hover {
   color: #18a058;
+}
+
+.clearfix::after,
+.clearfix::before {
+  content: '';
+  display: table;
+}
+.clearfix::after {
+  clear: both;
+}
+.clearfix {
+  /*兼容低版本*/
+  *zoom: 1;
 }
 </style>
