@@ -39,6 +39,7 @@ function renderIcon(icon) {
 
 const getMenuOptions = (userPerm) => {
   const routes = router.getRoutes()
+  // userPerm = 255;
   const options = routes.reduce((prev, curr) => {
     if (curr.meta.hasOwnProperty('perm') && userPerm >= curr.meta.perm) {
       if (curr.path === '/students') {
