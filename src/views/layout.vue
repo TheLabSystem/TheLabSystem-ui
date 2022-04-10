@@ -43,7 +43,7 @@ const getMenuOptions = (userPerm) => {
   const options = routes.reduce((prev, curr) => {
     if (curr.meta.hasOwnProperty('perm') && userPerm >= curr.meta.perm) {
       if (curr.path === '/students') {
-        if (userPerm != 3 && userPerm != 255) {
+        if (userPerm != 3) {
           return prev;
         }
       }
