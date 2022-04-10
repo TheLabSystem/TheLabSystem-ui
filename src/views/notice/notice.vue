@@ -2,7 +2,7 @@
   <div class="notice-header clearfix">
     <h3>通知公告</h3>
     <!-- 这里要改成具有权限的用户才能进行操作 -->
-    <div class="func-bar" v-if="true">
+    <div class="func-bar" v-if="userType === 255">
       <n-button
         round
         secondary
@@ -83,6 +83,7 @@ export default defineComponent({
       showModal: false,
       title: '',
       content,
+      userType: 1,
     })
     const dialog = useDialog()
     const message = useMessage()
@@ -210,6 +211,7 @@ export default defineComponent({
       generateDialog(false, title, content)
     }
     getAllNotice()
+    events.userType = store.getters.getUser['user-type']
     return {
       ...toRefs(events),
       addNewNotice,
