@@ -40,7 +40,7 @@ const getMenuOptions = () => {
   const routes = router.getRoutes()
   const userPerm = 255 // TODO: get user perm from vuex
   const options = routes.reduce((prev, curr) => {
-    if (curr.meta.perm && userPerm >= curr.meta.perm) {
+    if (curr.meta.hasOwnProperty('perm') && userPerm >= curr.meta.perm) {
       prev.push({
         label: () =>
           h(

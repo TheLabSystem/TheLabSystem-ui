@@ -30,7 +30,7 @@ const routes = [{
     },
     {
       path: '/students',
-      name: '学生列表',
+      name: '学生管理',
       meta: {
         perm: 3,
       },
