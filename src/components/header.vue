@@ -18,36 +18,36 @@
 </template>
 
 <script>
-import { NButton, NDropdown } from "naive-ui";
-import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
-import { whoAmI, logout } from "@/api/auth";
-import { useStore } from "vuex";
+import { NButton, NDropdown } from 'naive-ui'
+import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { whoAmI, logout } from '@/api/auth'
+import { useStore } from 'vuex'
 const options = [
   {
-    label: "个人中心",
-    key: "personal center",
+    label: '个人中心',
+    key: 'personal center',
   },
   {
-    label: "登出",
-    key: "logout",
+    label: '登出',
+    key: 'logout',
   },
-];
+]
 export default defineComponent({
   setup(props) {
-    const store = useStore();
-    const router = useRouter();
-    let user = ref(store.getters.getUser);
+    const store = useStore()
+    const router = useRouter()
+    let user = ref(store.getters.getUser)
     const getUserInfo = async () => {
-      const res = await whoAmI();
-      store.commit("changeUser", res.Data.User);
-      user.value = res.Data.User;
-    };
+      const res = await whoAmI()
+      store.commit('changeUser', res.Data.User)
+      user.value = res.Data.User
+    }
     if (user.value === null) {
-      getUserInfo();
+      getUserInfo()
     }
     function handleSelect(key) {
-      if (key === "logout") {
+      if (key === 'logout') {
         logout().then(() => {
           store.commit("changeUser", null);
           user.value = null;
@@ -61,13 +61,13 @@ export default defineComponent({
       user,
       options,
       handleSelect,
-    };
+    }
   },
   components: {
     NButton,
     NDropdown,
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
@@ -78,7 +78,7 @@ export default defineComponent({
   padding: 1vh 1vw;
   line-height: 8vh;
   vertical-align: middle;
-  border-bottom: 1px solid #666666;
+  border-bottom: 1px solid #efeff5;
   > * {
     display: inline-block;
   }

@@ -30,6 +30,9 @@ a:hover {
   color: #18a058;
 }
 
+.n-layout-scroll-container {
+  overflow: hidden;
+}
 .clearfix::after,
 .clearfix::before {
   content: '';
