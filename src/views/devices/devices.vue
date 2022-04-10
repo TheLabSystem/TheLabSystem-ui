@@ -1,5 +1,5 @@
 <template>
-  <div class="notice-header clearfix">
+  <div class="device-header clearfix">
     <h3>设备管理</h3>
     <div class="func-bar" v-if="userType === 255">
       <n-button
@@ -251,6 +251,14 @@ export default defineComponent({
             num: 1,
           })
         },
+        onNegativeClick: () => {
+          store.commit('changeDevice', {
+            type_id: -1,
+            info: '',
+            status: 0,
+            num: 1,
+          })
+        },
       })
       events.deviceInfo = ''
       events.deviceStatus = 0
@@ -314,7 +322,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.notice-header {
+.device-header {
   > * {
     padding: 1vh 1vw;
   }

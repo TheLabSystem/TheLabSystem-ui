@@ -8,7 +8,10 @@ export default createStore({
     deviceTypeId: -1,
     deviceInfo: '',
     deviceStatus: 0,
-    deviceNumber: 1
+    deviceNumber: 1,
+    addedMoney: 0,
+    newDisplayName: '',
+    newPassword: '',
   },
   getters: {
     getUser (state) {
@@ -31,7 +34,12 @@ export default createStore({
       if (info || info === '') state.deviceInfo = info
       if (status || status === 0) state.deviceStatus = status
       if (num || num === 1) state.deviceNumber = num
-
+    },
+    changeUserInfo (state, Info) {
+      const { name, password, money } = Info
+      if (name || name === '') state.newDisplayName = name
+      if (password || password === '') state.newPassword = password
+      if (money || money === 0) state.addedMoney = money
     }
   },
   actions: {

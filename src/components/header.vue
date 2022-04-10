@@ -79,7 +79,7 @@ export default defineComponent({
   padding: 1vh 1vw;
   line-height: 8vh;
   vertical-align: middle;
-  border-bottom: 1px solid #666666;
+  border-bottom: 1px solid #efeff5;
   > * {
     display: inline-block;
   }

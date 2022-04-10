@@ -24,7 +24,6 @@ service.interceptors.response.use(
     if (res.data.Code === 0) {
       return res.data
     } else {
-      console.log(res);
       alert(res.data.Data.message)
       return Promise.reject(res.data.Data.message)
     }

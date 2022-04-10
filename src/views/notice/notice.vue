@@ -176,6 +176,9 @@ export default defineComponent({
           }
           store.commit('changeNotice', { title: '', content: '' })
         },
+        onNegativeClick: () => {
+          store.commit('changeNotice', { title: '', content: '' })
+        },
       })
     }
     function addNewNotice() {
