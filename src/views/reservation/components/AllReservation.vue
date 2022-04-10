@@ -12,7 +12,7 @@ import { getDevices } from "@/api/reservation";
 const getColumns = (showDetails) => [
   {
     title: "设备名称",
-    key: "device_info",
+    key: "DeviceInfo",
   },
   {
     title: "操作",
@@ -44,7 +44,12 @@ export default {
     const getDeviceInfo = async () => {
       const res = await getDevices();
       // console.log(res);
-      devices.value = res.Data.DeviceTypeInfo;
+      devices.value = res.Data.devices.reduce((acc, device) => {
+        if (!acc.some(item => item.DeviceID === device.DeviceID)) {
+          acc.push(device.info);
+        }
+        return acc;
+      }, []);
     };
     getDeviceInfo();
     const showDetails = (device) => {
