@@ -30,7 +30,7 @@ const routes = [{
     },
     {
       path: '/students',
-      name: '学生列表',
+      name: '学生管理',
       meta: {
         perm: 3,
       },
@@ -72,7 +72,7 @@ const routes = [{
       path: '/notice',
       name: '通知公告',
       meta: {
-        perm: 4,
+        perm: 0,
       },
       component: () => import('@/views/notice/notice.vue'),
     }

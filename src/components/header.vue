@@ -1,6 +1,6 @@
 <template>
   <div class="header-container">
-    <h2>xxx实验室设备管理系统</h2>
+    <h2>HIT实验室设备管理系统</h2>
     <div class="welcome">
       <img src="../assets/logo-small.png" />
       <n-dropdown
@@ -10,8 +10,7 @@
         @select="handleSelect"
       >
         <span>
-          你好！{{ user ? user['user-type'] + '-' + user.display_name : '' }}
-          &gt;&nbsp;&nbsp;
+          你好！{{ user && user.display_name }} &gt;&nbsp;&nbsp;
         </span>
       </n-dropdown>
     </div>
@@ -50,12 +49,12 @@ export default defineComponent({
     function handleSelect(key) {
       if (key === 'logout') {
         logout().then(() => {
-          store.commit('changeUser', null)
-          user.value = null
-          router.push('/auth/login')
-        })
-      } else if (key === 'personal center') {
-        router.push('/profile')
+          store.commit("changeUser", null);
+          user.value = null;
+          router.push("/login");
+        });
+      } else if (key === "personal center") {
+        router.push("/profile");
       }
     }
     return {

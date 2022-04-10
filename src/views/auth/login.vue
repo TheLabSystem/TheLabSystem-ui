@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <n-card class="login" title="欢迎使用xx实验室设备预约系统！">
+    <n-card class="login" title="欢迎使用HIT实验室设备预约系统！">
       <n-tabs size="large" animated>
         <!-- 登陆部分开始 -->
         <n-tab-pane name="signin" tab="登录">
