@@ -32,13 +32,37 @@
       </n-button>
     </div>
   </div>
-  <n-menu :options="allNotice" accordion :on-update:value="selectNotice">
-  </n-menu>
+  <n-scrollbar style="max-height: 83vh">
+    <n-menu :options="allNotice" accordion :on-update:value="selectNotice">
+    </n-menu>
+  </n-scrollbar>
+  <n-modal v-model:show="showModal">
+    <n-card
+      style="width: 600px"
+      :title="'Title:' + title"
+      :bordered="false"
+      size="huge"
+      role="dialog"
+      aria-modal="true"
+    >
+      {{ content }}
+    </n-card>
+  </n-modal>
 </template>
 
 <script>
 import { defineComponent, h, reactive, toRefs } from 'vue'
-import { NMenu, NIcon, NButton, useDialog, NInput, useMessage } from 'naive-ui'
+import {
+  NMenu,
+  NIcon,
+  NButton,
+  useDialog,
+  NInput,
+  useMessage,
+  NScrollbar,
+  NModal,
+  NCard,
+} from 'naive-ui'
 import {
   getNotice,
   addNotice,
@@ -56,6 +80,9 @@ export default defineComponent({
     const events = reactive({
       allNotice: [],
       selectedId: '',
+      showModal: false,
+      title: '',
+      content,
     })
     const dialog = useDialog()
     const message = useMessage()
@@ -64,7 +91,7 @@ export default defineComponent({
       let res = await getNotice()
       events.allNotice = res.Data.Notice.map((cur, index) => {
         return {
-          label: `No.${index}：${cur.Title}`,
+          label: `No.${index} Title：${cur.Title}`,
           key: cur.NoticeID,
           icon: renderIcon(FishIcon),
           children: [{ label: cur.Content, key: cur.NoticeID }],
@@ -74,8 +101,20 @@ export default defineComponent({
     }
     function selectNotice(key) {
       events.selectedId = key
+      events.allNotice.some((value) => {
+        if (value.key == events.selectedId) {
+          events.title = value.label.split('：')[1]
+          events.content = value.children[0].label
+          return true
+        }
+      })
+      events.showModal = true
     }
     function generateDialog(add, title, content) {
+      store.commit('changeNotice', {
+        title,
+        content,
+      })
       dialog.success({
         title: `请${add ? '输入' : '修改'}通知的标题${add ? '和' : '或'}内容`,
         content: () =>
@@ -114,13 +153,19 @@ export default defineComponent({
           let res = null
           if (add) {
             res = await addNotice({
-              Title: store.state.noticeTitle,
+              Title:
+                store.state.noticeTitle +
+                '：发布者：' +
+                store.getters.getUser.display_name,
               Content: store.state.noticeContent,
             })
           } else {
             res = await updateNotice({
               ID: parseInt(events.selectedId),
-              Title: store.state.noticeTitle,
+              Title:
+                store.state.noticeTitle +
+                '：发布者：' +
+                store.getters.getUser.display_name,
               Content: store.state.noticeContent,
             })
           }
@@ -162,7 +207,6 @@ export default defineComponent({
           return true
         }
       })
-      console.log(title, content)
       generateDialog(false, title, content)
     }
     getAllNotice()
@@ -177,6 +221,9 @@ export default defineComponent({
   components: {
     NMenu,
     NButton,
+    NScrollbar,
+    NModal,
+    NCard,
   },
 })
 </script>

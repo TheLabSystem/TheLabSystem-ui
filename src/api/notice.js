@@ -32,4 +32,3 @@ export function updateNotice (data) {
     data
   });
 }
-

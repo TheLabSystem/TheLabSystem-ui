@@ -134,7 +134,7 @@ import { Password, Types } from '@vicons/carbon'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { reactive, toRefs } from 'vue'
-import { login as apiLogin } from '@/api/auth'
+import { login as apiLogin, register as apiRegister } from '@/api/auth'
 
 export default {
   setup() {
@@ -176,22 +176,37 @@ export default {
         return
       }
       createMessage('loading', !register ? '登陆中...' : '注册中...')
+      let res = null
       if (!register) {
-        const res = await apiLogin({
+        res = await apiLogin({
           username: events.user_name,
           password: events.password,
         })
-        if (res.Code == 0) {
-          const user = res.Data.User
-          msgReactive.type = 'success'
-          msgReactive.content = `登陆成功！欢迎，${user.display_name}`
-          store.commit('changeUser', user)
-          router.push('/')
-        } else {
-          msgReactive.type = 'error'
-          msgReactive.content = res.Data.message
-        }
       } else {
+        res = await apiRegister({
+          username: events.user_name,
+          password: events.password,
+          user_type: parseInt(events.user_type),
+          verify_code: parseInt(events.verify_code),
+        })
+      }
+      if (res.Code == 0) {
+        if (register) {
+          res = await apiLogin({
+            username: events.user_name,
+            password: events.password,
+          })
+        }
+        const user = res.Data.User
+        msgReactive.type = 'success'
+        msgReactive.content = `${register ? '注册' : '登陆'}成功！欢迎，${
+          user.display_name
+        }`
+        store.commit('changeUser', user)
+        router.push('/')
+      } else {
+        msgReactive.type = 'error'
+        msgReactive.content = res.Data.message
       }
     }
     return {

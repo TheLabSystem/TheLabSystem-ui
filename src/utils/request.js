@@ -23,7 +23,8 @@ service.interceptors.response.use(
     const res = response
     if (res.data.Code === 0) {
       return res.data
-    }  else  {
+    } else {
+      console.log(res);
       alert(res.data.Data.message)
       return Promise.reject(res.data.Data.message)
     }
