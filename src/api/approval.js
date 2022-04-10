@@ -10,13 +10,14 @@ export function getApproval(status) {
   });
 }
 
-export function setApproval(reservation_id, approval) {
+export function setApproval(reservation_id, approval, money) {
   return request({
     url: '/api/v1/reservation/setApproval',
     method: 'post',
     data: {
       reservation_id,
       approval,
+      money,
     },
   });
 }

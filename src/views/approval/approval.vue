@@ -56,7 +56,7 @@ const getColumns = ({acceptApproval, rejectApproval}) => [
         // TODO: 已审批的不用按钮
         h(NButton, {
           type: "success",
-          onClick: () => acceptApproval(row.ReservationID),
+          onClick: () => acceptApproval(row.ReservationID, row.userType),
           disabled: [-2, -1, 1, 2, 3].indexOf(row.Status) != -1,
         }, { default: () => "通过" }),
         h(NButton, {
@@ -80,6 +80,7 @@ export default {
         data.push({
           ...reservation.ReservationRes,
           userName: reservation.UserRes.display_name,
+          userType: reservation.UserRes['user-type'],
           DeviceInfo: res.Data.reservationInfos[0].DeviceTypeInfo,
           nums: res.Data.reservationInfos.length,
           ReservationDay: res.Data.reservationInfos[0].ReservationDay,
@@ -90,14 +91,14 @@ export default {
       approvals.value = data.filter(item => item.Status != -1);
     };
     const acceptApproval = (id) => {
-      setApproval(id, 1).then((res) => {
+      setApproval(id, 1, money).then((res) => {
         // console.log(res);
         message.success("操作成功");
         getAllApproval();
       });
     };
-    const rejectApproval = (id) => {
-      setApproval(id, 2).then((res) => {
+    const rejectApproval = (id, userType) => {
+      setApproval(id, 2, userType == 1 ? 233 : 0).then((res) => {
         // console.log(res);
         message.success("操作成功");
         getAllApproval();
