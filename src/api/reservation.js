@@ -46,3 +46,13 @@ export function getReservationDetails(day, device_type_id) {
     },
   });
 }
+
+export function submitReservation(config) {
+  return request({
+    url: '/api/v1/reservation/submitReservation',
+    method: 'post',
+    data: {
+      ...config,
+    },
+  });
+}

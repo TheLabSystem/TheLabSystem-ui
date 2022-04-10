@@ -32,7 +32,7 @@ const getDialogOptions = (device) => {
   return {
     title: "设备预约 - " + device.DeviceInfo,
     content: () => h(ReservationDetails, {
-      id: device.DeviceID,
+      id: device.DeviceTypeID,
     }),
   }
 };

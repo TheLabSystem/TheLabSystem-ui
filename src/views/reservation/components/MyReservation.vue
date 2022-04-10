@@ -30,7 +30,7 @@ const getColumns = (revertMyReservation) => [
   {
     title: "操作",
     render(row) {
-      console.log(row);
+      // console.log(row);
       return h(NButton, {
         type: "Error",
         disabled: row.Status === -1,
@@ -56,7 +56,7 @@ export default {
           ReservationTime: res.Data.reservationInfos[0].ReservationTime,
         });
       }
-      console.log(data);
+      // console.log(data);
       reservations.value = data;
     };
     getReservations();
