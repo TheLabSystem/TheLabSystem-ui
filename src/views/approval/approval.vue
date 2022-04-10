@@ -4,12 +4,13 @@
   </NCard>
 </template>
 <script>
-import { NCard, NDataTable, NButton, useDialog, useMessage, NSpace } from 'naive-ui';
+import { NCard, NDataTable, NButton, useDialog, NSpace } from 'naive-ui';
 import { getApproval, setApproval } from '@/api/approval';
 import { getReservationInfoByReservationID } from '@/api/reservation';
 import { ref, h } from 'vue';
+import { getStatus } from '@/utils/reservation';
 
-const getColumns = ({showApprovalDetails, acceptApproval, rejectApproval}) => [
+const getColumns = ({acceptApproval, rejectApproval}) => [
   {
     title: "设备名称",
     key: "DeviceInfo",
@@ -30,37 +31,38 @@ const getColumns = ({showApprovalDetails, acceptApproval, rejectApproval}) => [
   },
   {
     title: "状态",
-    key: "Status",
+    render(row) {
+      return getStatus(row.Status);
+    },
     filterOptions: [
       {
         label: '已审批',
-        value: 'London',
+        value: 1,
       },
       {
-        label: '未审批',
-        value: 'New York',
+        label: '待审批',
+        value: 0,
       },
     ],
     filter (value, row) {
-      return 1;
+      const end = [-2, -1, 1, 2, 3];
+      return end.indexOf(row.Status) !== -1 ? value : !value;
     }
   },
   {
     title: "操作",
     render: (row) => {
       return h(NSpace, {}, () => [
-        h(NButton, {
-          type: "info",
-          onClick: () => showApprovalDetails(row),
-        }, { default: () => "详情" }),
         // TODO: 已审批的不用按钮
         h(NButton, {
           type: "success",
           onClick: () => acceptApproval(row.ReservationID),
+          disabled: [-2, -1, 1, 2, 3].indexOf(row.Status) != -1,
         }, { default: () => "通过" }),
         h(NButton, {
           type: "error",
           onClick: () => rejectApproval(row.ReservationID),
+          disabled: [-2, -1, 1, 2, 3].indexOf(row.Status) != -1,
         }, { default: () => "拒绝" }),
       ]);
     }
@@ -69,15 +71,7 @@ const getColumns = ({showApprovalDetails, acceptApproval, rejectApproval}) => [
 export default {
   setup() {
     const dialog = useDialog();
-    const message = useMessage();
     const approvals = ref([]);
-    const showApprovalDetails = (row) => {
-      const dialogOptions = {
-        title: "预约申请详情",
-        content: row.description,
-      };
-      dialog.create(dialogOptions);
-    };
     const getAllApproval = async () => {
       const res = await getApproval(1);
       let data = [];
@@ -93,7 +87,7 @@ export default {
         });
       }
       // console.log(data);
-      approvals.value = data;
+      approvals.value = data.filter(item => item.Status != -1);
     };
     const acceptApproval = (id) => {
       setApproval(id, 1).then((res) => {
@@ -111,7 +105,6 @@ export default {
     };
     getAllApproval();
     const columns = getColumns({
-      showApprovalDetails,
       acceptApproval,
       rejectApproval,
     });

@@ -7,6 +7,7 @@
 import { NDataTable, NButton, useMessage } from "naive-ui";
 import { ref, h } from "vue";
 import { getPersonalReservations, revertReservation, getReservationInfoByReservationID } from "@/api/reservation";
+import { getStatus } from '@/utils/reservation';
 
 const getColumns = (revertMyReservation) => [
   {
@@ -20,20 +21,30 @@ const getColumns = (revertMyReservation) => [
   {
     title: "预约时间",
     render(row) {
-      return `${row.ReservationDay} - ${row.ReservationTime}`;
+      return `${row.ReservationDay} , ${(row.ReservationTime * 2).toString().padStart(2, '0')}:00-${((row.ReservationTime + 1) * 2).toString().padStart(2, '0')}:00`;
     },
   },
   {
     title: "预约状态",
-    key: "Status",
+    render(row) {
+      return getStatus(row.Status);
+    },
   },
   {
     title: "操作",
     render(row) {
-      // console.log(row);
+      const getDisabled = (ReservationDay) => {
+        const end = new Date(ReservationDay);
+        const now = new Date();
+        console.log(end, now, end.getDate(), now.getDate());
+        if (end < now || now.getDate() == end.getDate()) {
+          return false;
+        }
+        return true;
+      };
       return h(NButton, {
         type: "Error",
-        disabled: row.Status === -1,
+        disabled: row.Status === -1 || row.Status === -2 || !getDisabled(row.ReservationDay),
         onClick: () => revertMyReservation(row.ReservationID),
       }, { default: () => "撤销" });
     }
