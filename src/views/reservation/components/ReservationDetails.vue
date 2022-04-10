@@ -17,13 +17,13 @@ const formatDate = (date) => {
 
 export default {
   props: {
-    info: {
-      type: Object,
+    id: {
+      type: Number,
       required: true,
     },
   },
   setup(props) {
-    const id = props.info.DeviceID;
+    const id = props.id;
     const date = ref(new Date());
     const details = ref([]);
     const getDetails = async () => {
@@ -33,7 +33,6 @@ export default {
     };
     getDetails();
     return {
-      name: props.info.DeviceInfo,
       details,
     }
   },

@@ -30,9 +30,9 @@ const getColumns = (showDetails) => [
 ];
 const getDialogOptions = (device) => {
   return {
-    title: "设备预约",
+    title: "设备预约 - " + device.DeviceInfo,
     content: () => h(ReservationDetails, {
-      info: device,
+      id: device.DeviceID,
     }),
   }
 };

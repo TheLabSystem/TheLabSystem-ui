@@ -26,7 +26,7 @@ const getColumns = ({showApprovalDetails, acceptApproval, rejectApproval}) => [
   },
   {
     title: "预约人",
-    key: "ApplicantID",
+    key: "userName",
   },
   {
     title: "状态",
@@ -81,10 +81,11 @@ export default {
     const getAllApproval = async () => {
       const res = await getApproval(1);
       let data = [];
-      for (let reservation of res.Data.Approval) {
-        const res = await getReservationInfoByReservationID(reservation.ReservationID);
+      for (let reservation of res.Data.ApprovalRes) {
+        const res = await getReservationInfoByReservationID(reservation.ReservationRes.ReservationID);
         data.push({
-          ...reservation,
+          ...reservation.ReservationRes,
+          userName: reservation.UserRes.display_name,
           DeviceInfo: res.Data.reservationInfos[0].DeviceTypeInfo,
           nums: res.Data.reservationInfos.length,
           ReservationDay: res.Data.reservationInfos[0].ReservationDay,
