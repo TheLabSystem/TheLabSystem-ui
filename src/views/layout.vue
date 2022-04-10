@@ -19,14 +19,16 @@
     </n-layout-sider>
     <n-layout>
       <Header></Header>
-      <router-view />
+      <NScrollbar style="height: 88vh;">
+        <router-view />
+      </NScrollBar>
     </n-layout>
   </n-layout>
 </template>
 
 <script>
 import { h, defineComponent, reactive, toRefs, ref } from 'vue'
-import { NLayout, NLayoutSider, NIcon, NMenu } from 'naive-ui'
+import { NLayout, NLayoutSider, NIcon, NMenu, NScrollbar } from 'naive-ui'
 import { RouterLink } from 'vue-router'
 import router from '@/router'
 import Header from '../components/header.vue'
@@ -90,6 +92,7 @@ export default defineComponent({
     NLayoutSider,
     NMenu,
     Header,
+    NScrollbar,
   },
 })
 </script>
