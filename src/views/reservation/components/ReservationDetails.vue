@@ -57,13 +57,7 @@
 import { ref } from 'vue';
 import { getReservationDetails, submitReservation } from '@/api/reservation';
 import { useMessage, NGrid, NGridItem, NSpace, NButton, NInput } from 'naive-ui';
-
-const formatDate = (date) => {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate();
-  return `${year}-${month}-${day}`;
-};
+import { formatDate } from '@/utils/date';
 
 export default {
   props: {
