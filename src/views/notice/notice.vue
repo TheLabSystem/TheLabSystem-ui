@@ -83,7 +83,7 @@ export default defineComponent({
       selectedId: '',
       showModal: false,
       title: '',
-      content,
+      content: '',
       userType: store.getters.getUser && store.getters.getUser['user-type'],
     })
     const dialog = useDialog()
