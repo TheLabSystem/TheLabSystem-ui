@@ -1,7 +1,7 @@
 <template>
   <NCard title="设备预约" style="width: 98%; margin: 10px 1%; min-height: 85%;">
     <NTabs type="line" animated>
-      <NTabPane name="查看预约" tab="查看预约">
+      <NTabPane name="查看设备" tab="查看设备">
         <AllReservation />
       </NTabPane>
       <NTabPane name="我的预约" tab="我的预约">
