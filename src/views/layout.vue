@@ -25,22 +25,27 @@
 </template>
 
 <script>
-import { h, defineComponent, reactive, toRefs } from 'vue'
+import { h, defineComponent, reactive, toRefs, ref } from 'vue'
 import { NLayout, NLayoutSider, NIcon, NMenu } from 'naive-ui'
 import { RouterLink } from 'vue-router'
 import router from '@/router'
 import Header from '../components/header.vue'
 import { BookOutline as BookIcon } from '@vicons/ionicons5'
+import { whoAmI } from "@/api/auth";
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
-const getMenuOptions = () => {
+const getMenuOptions = (userPerm) => {
   const routes = router.getRoutes()
-  const userPerm = 255 // TODO: get user perm from vuex
   const options = routes.reduce((prev, curr) => {
     if (curr.meta.hasOwnProperty('perm') && userPerm >= curr.meta.perm) {
+      if (curr.path === '/students') {
+        if (userPerm != 3 && userPerm != 255) {
+          return prev;
+        }
+      }
       prev.push({
         label: () =>
           h(
@@ -62,14 +67,20 @@ export default defineComponent({
     const events = reactive({
       collapsed: false,
       inverted: false,
-    })
+    });
+    const menuOptions = ref([]);
+    const init = async() => {
+      const res = await whoAmI();
+      menuOptions.value = getMenuOptions(res.Data.User['user-type']);
+    }
+    init();
     function toggleCollapsed() {
       events.collapsed = !events.collapsed
     }
     return {
       ...toRefs(events),
       toggleCollapsed,
-      menuOptions: getMenuOptions(),
+      menuOptions,
     }
   },
   components: {

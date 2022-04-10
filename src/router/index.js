@@ -72,7 +72,7 @@ const routes = [{
       path: '/notice',
       name: '通知公告',
       meta: {
-        perm: 4,
+        perm: 0,
       },
       component: () => import('@/views/notice/notice.vue'),
     }
