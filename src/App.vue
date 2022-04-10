@@ -29,4 +29,17 @@ a {
 a:hover {
   color: #18a058;
 }
+
+.clearfix::after,
+.clearfix::before {
+  content: '';
+  display: table;
+}
+.clearfix::after {
+  clear: both;
+}
+.clearfix {
+  /*兼容低版本*/
+  *zoom: 1;
+}
 </style>

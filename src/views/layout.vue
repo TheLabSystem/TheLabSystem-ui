@@ -12,7 +12,6 @@
     >
       <div :class="collapsed ? 'collapsed-logo' : 'logo'"></div>
       <n-menu
-        :inverted="inverted"
         :collapsed-width="64"
         :collapsed-icon-size="22"
         :options="menuOptions"
