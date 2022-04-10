@@ -77,17 +77,17 @@ function renderIcon(icon) {
 }
 export default defineComponent({
   setup() {
+    const store = useStore()
     const events = reactive({
       allNotice: [],
       selectedId: '',
       showModal: false,
       title: '',
       content,
-      userType: 1,
+      userType: store.getters.getUser && store.getters.getUser['user-type'],
     })
     const dialog = useDialog()
     const message = useMessage()
-    const store = useStore()
     const getAllNotice = async function () {
       let res = await getNotice()
       events.allNotice = res.Data.Notice.map((cur, index) => {
@@ -211,7 +211,6 @@ export default defineComponent({
       generateDialog(false, title, content)
     }
     getAllNotice()
-    events.userType = store.getters.getUser['user-type']
     return {
       ...toRefs(events),
       addNewNotice,

@@ -7,7 +7,8 @@ export default createStore({
     noticeContent: '',
     deviceTypeId: -1,
     deviceInfo: '',
-    deviceStatus: 0
+    deviceStatus: 0,
+    deviceNumber: 1
   },
   getters: {
     getUser (state) {
@@ -25,10 +26,12 @@ export default createStore({
       if (content || content === '') state.noticeContent = content
     },
     changeDevice (state, device) {
-      const { type_id, info, status } = device
+      const { type_id, info, status, num } = device
       if (type_id || type_id === -1) state.deviceTypeId = type_id
       if (info || info === '') state.deviceInfo = info
       if (status || status === 0) state.deviceStatus = status
+      if (num || num === 1) state.deviceNumber = num
+
     }
   },
   actions: {
