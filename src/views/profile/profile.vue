@@ -129,7 +129,7 @@ export default {
       })
     }
     function generateChangeInfoDialog() {
-      let display_name = events.data[2].value,
+      let display_name = events.data[3].value,
         password = events.password,
         user_info = ''
       store.commit('changeUserInfo', {
@@ -194,6 +194,13 @@ export default {
       const res = await apiFindUserInfo({})
       if (res.Code === 0) {
         let userInfo = res.Data.User
+        events.data.push({
+          key: 0,
+          prop: '用户ID',
+          value: userInfo.user_id,
+          icon: NotAllowed,
+          handler() {},
+        })
         events.data.push({
           key: 1,
           prop: '用户名',
