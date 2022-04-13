@@ -4,7 +4,7 @@
   </NCard>
 </template>
 <script>
-import { NCard, NDataTable, NButton, useDialog, NSpace } from 'naive-ui';
+import { NCard, NDataTable, NButton, useDialog, NSpace, useMessage } from 'naive-ui';
 import { getApproval, setApproval } from '@/api/approval';
 import { getReservationInfoByReservationID } from '@/api/reservation';
 import { ref, h } from 'vue';
@@ -29,26 +29,26 @@ const getColumns = ({acceptApproval, rejectApproval}) => [
     title: "预约人",
     key: "userName",
   },
-  {
-    title: "状态",
-    render(row) {
-      return getStatus(row.Status);
-    },
-    filterOptions: [
-      {
-        label: '已审批',
-        value: 1,
-      },
-      {
-        label: '待审批',
-        value: 0,
-      },
-    ],
-    filter (value, row) {
-      const end = [-2, -1, 1, 2, 3];
-      return end.indexOf(row.Status) !== -1 ? value : !value;
-    }
-  },
+  // {
+  //   title: "状态",
+  //   render(row) {
+  //     return getStatus(row.Status);
+  //   },
+  //   filterOptions: [
+  //     {
+  //       label: '已审批',
+  //       value: 1,
+  //     },
+  //     {
+  //       label: '待审批',
+  //       value: 0,
+  //     },
+  //   ],
+  //   filter (value, row) {
+  //     const end = [-2, -1, 1, 2, 3];
+  //     return end.indexOf(row.Status) !== -1 ? value : !value;
+  //   }
+  // },
   {
     title: "操作",
     render: (row) => {
@@ -72,6 +72,7 @@ export default {
   setup() {
     const dialog = useDialog();
     const approvals = ref([]);
+    const message = useMessage();
     const getAllApproval = async () => {
       const res = await getApproval(1);
       let data = [];
@@ -91,16 +92,14 @@ export default {
       approvals.value = data.filter(item => item.Status != -1);
     };
     const acceptApproval = (id) => {
-      setApproval(id, 1, money).then((res) => {
-        // console.log(res);
+      setApproval(id, 1).then((res) => {
         message.success("操作成功");
         getAllApproval();
       });
     };
     const rejectApproval = (id, userType) => {
-      setApproval(id, 2, userType == 1 ? 233 : 0).then((res) => {
-        // console.log(res);
-        message.success("操作成功");
+      setApproval(id, 2).then((res) => {
+        message.error("拒绝成功");
         getAllApproval();
       });
     };
