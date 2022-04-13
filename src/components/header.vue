@@ -37,7 +37,7 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
     const router = useRouter()
-    let user = ref(store.getters.getUser)
+    const user = ref(store.getters.getUser)
     const getUserInfo = async () => {
       const res = await whoAmI()
       store.commit('changeUser', res.Data.User)

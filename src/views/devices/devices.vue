@@ -1,7 +1,7 @@
 <template>
   <div class="device-header clearfix">
     <h3>设备管理</h3>
-    <div class="func-bar" v-if="userType === 255">
+    <div class="func-bar" v-if="[4, 255].indexOf(userType) != -1">
       <n-button
         round
         secondary
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { defineComponent, h, reactive, toRefs } from 'vue'
+import { defineComponent, h, reactive, toRefs, ref } from 'vue'
 import {
   NMenu,
   NIcon,
@@ -56,6 +56,7 @@ import {
   deleteDevice,
   updateDevice,
 } from '@/api/device.js'
+import { whoAmI } from '@/api/auth'
 import {
   DeviceMeetingRoomRemote16Regular as DeviceIcon,
   ClipboardError24Regular as DeviceUnavailable,
@@ -78,8 +79,20 @@ export default defineComponent({
       deviceTypeId: null,
       deviceInfo: '',
       deviceStatus: 0,
-      userType: store.getters.getUser && store.getters.getUser['user-type'],
     })
+    const user = ref(store.getters.getUser)
+    const userType = ref(0);
+    const getUserInfo = async () => {
+      const res = await whoAmI()
+      store.commit('changeUser', res.Data.User)
+      user.value = res.Data.User
+      userType.value = res.Data.User['user-type'];
+    }
+    if (user.value === null) {
+      getUserInfo()
+    } else {
+      userType.value = user.value['user-type'];
+    }
     const dialog = useDialog()
     const message = useMessage()
     const getAllDevice = async function () {
@@ -307,6 +320,7 @@ export default defineComponent({
     getAllDevice()
     return {
       ...toRefs(events),
+      userType,
       addNewDevice,
       selectDevice,
       deleteSelectedDevice,
