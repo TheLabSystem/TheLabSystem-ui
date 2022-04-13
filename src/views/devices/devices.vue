@@ -81,17 +81,17 @@ export default defineComponent({
       deviceStatus: 0,
     })
     const user = ref(store.getters.getUser)
-    const userType = ref(0);
+    const userType = ref(0)
     const getUserInfo = async () => {
       const res = await whoAmI()
       store.commit('changeUser', res.Data.User)
       user.value = res.Data.User
-      userType.value = res.Data.User['user-type'];
+      userType.value = res.Data.User['user-type']
     }
     if (user.value === null) {
       getUserInfo()
     } else {
-      userType.value = user.value['user-type'];
+      userType.value = user.value['user-type']
     }
     const dialog = useDialog()
     const message = useMessage()
@@ -135,10 +135,12 @@ export default defineComponent({
         type_id: events.deviceTypeId,
         info: events.deviceInfo,
         status: events.deviceStatus,
+        money: 0,
       })
       let type_id = events.deviceTypeId,
         status = events.deviceStatus,
-        device_number = 1
+        device_number = 1,
+        device_money = null
       dialog.success({
         title: `请${add ? '输入' : '修改'}设备的类型id${
           add ? '以及描述' : '或者状态'
@@ -178,10 +180,27 @@ export default defineComponent({
                   placeholder: '在这里输入要添加的设备数量',
                   style: 'margin:10px 0;',
                   'default-value': 1,
-                  'v-model:value': device_number,
+                  'v-model:value': device_money,
                   'on-update:value': (value) => {
                     store.commit('changeDevice', {
                       num: value,
+                    })
+                  },
+                })
+              : '',
+            add
+              ? h(NInputNumber, {
+                  placeholder: events.infoDisabled
+                    ? '设备类型已存在'
+                    : '在这里输入要添加的设备价格',
+                  disabled: events.infoDisabled,
+                  style: 'margin:10px 0;',
+                  'v-model:value': events.infoDisabled
+                    ? '设备类型已存在'
+                    : device_number,
+                  'on-update:value': (value) => {
+                    store.commit('changeDevice', {
+                      money: value,
                     })
                   },
                 })
@@ -241,6 +260,7 @@ export default defineComponent({
                   device_id: 1,
                   device_type_id: store.state.deviceTypeId,
                   device_info: store.state.deviceInfo,
+                  money: store.state.deviceMoney,
                 })
               )
             }
@@ -262,6 +282,7 @@ export default defineComponent({
             info: '',
             status: 0,
             num: 1,
+            money: 0,
           })
         },
         onNegativeClick: () => {
@@ -270,6 +291,7 @@ export default defineComponent({
             info: '',
             status: 0,
             num: 1,
+            money: 0,
           })
         },
       })
