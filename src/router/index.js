@@ -75,6 +75,14 @@ const routes = [{
         perm: 0,
       },
       component: () => import('@/views/notice/notice.vue'),
+    },
+    {
+      path: '/verify',
+      name: '验证码管理',
+      meta: {
+        perm: 0,
+      },
+      component: () => import('@/views/verify/verify.vue'),
     }
   ],
 }];
