@@ -45,7 +45,7 @@ export default {
       const res = await getDevices();
       // console.log(res);
       devices.value = res.Data.devices.reduce((acc, device) => {
-        if (!acc.some(item => item.DeviceID === device.DeviceID)) {
+        if (!acc.some(item => item.DeviceTypeID === device.info.DeviceTypeID)) {
           acc.push(device.info);
         }
         return acc;

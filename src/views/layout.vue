@@ -19,14 +19,16 @@
     </n-layout-sider>
     <n-layout>
       <Header></Header>
-      <router-view />
+      <NScrollbar style="height: 88vh;">
+        <router-view />
+      </NScrollBar>
     </n-layout>
   </n-layout>
 </template>
 
 <script>
 import { h, defineComponent, reactive, toRefs, ref } from 'vue'
-import { NLayout, NLayoutSider, NIcon, NMenu } from 'naive-ui'
+import { NLayout, NLayoutSider, NIcon, NMenu, NScrollbar } from 'naive-ui'
 import { RouterLink } from 'vue-router'
 import router from '@/router'
 import Header from '../components/header.vue'
@@ -43,7 +45,7 @@ const getMenuOptions = (userPerm) => {
   const options = routes.reduce((prev, curr) => {
     if (curr.meta.hasOwnProperty('perm') && userPerm >= curr.meta.perm) {
       if (curr.path === '/students') {
-        if (userPerm != 3 && userPerm != 255) {
+        if (userPerm != 3) {
           return prev;
         }
       }
@@ -90,6 +92,7 @@ export default defineComponent({
     NLayoutSider,
     NMenu,
     Header,
+    NScrollbar,
   },
 })
 </script>

@@ -75,18 +75,13 @@
               <n-icon :component="Password"> </n-icon>
             </template>
           </n-input>
-          <n-input
+          <n-select
             size="large"
-            clearable
-            round
-            class="form-component"
-            placeholder="请输入要注册的用户类型"
             v-model:value="user_type"
-          >
-            <template #prefix>
-              <n-icon :component="Types"> </n-icon>
-            </template>
-          </n-input>
+            :options="options"
+            placeholder="请选择要注册的用户类型"
+            class="form-component"
+          />
           <n-input
             size="large"
             clearable
@@ -127,6 +122,7 @@ import {
   NFormItemRow,
   NIcon,
   useMessage,
+  NSelect,
 } from 'naive-ui'
 import { NumberRow24Regular as Verify } from '@vicons/fluent'
 import { UserCircleRegular as UserCircle } from '@vicons/fa'
@@ -213,6 +209,14 @@ export default {
       ...icons,
       ...toRefs(events),
       login,
+      options: [
+        { label: '1.外来人员', value: 1 },
+        { label: '2.学生', value: 2 },
+        { label: '3.老师', value: 3 },
+        { label: '4.设备管理员', value: 4 },
+        { label: '5.财务处', value: 5 },
+        { label: '255.实验室负责人', value: 255 },
+      ],
     }
   },
   components: {
@@ -223,6 +227,7 @@ export default {
     NButton,
     NFormItemRow,
     NIcon,
+    NSelect,
   },
 }
 </script>

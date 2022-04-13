@@ -23,23 +23,20 @@ service.interceptors.response.use(
     const res = response
     if (res.data.Code === 0) {
       return res.data
-    }  else  {
-      // console.log(res);
-      if (res.hasOwnProperty('error')) {
-        alert(res.error)
-        return Promise.reject(res.error)
-      } else if (res.hasOwnProperty('data')) {
-        if (res.data.hasOwnProperty('error')) {
-          alert(res.data.error)
-          return Promise.reject(res.data.error)
-        } else {
-          alert(res.data.message)
-          return Promise.reject(res.data.message)
-        }
-      } else {
-        alert("出错啦qwq")
-        return Promise.reject(res)
+    } else if (res.data.hasOwnProperty('Data')) {
+      if (res.data.Data.hasOwnProperty('Message')) {
+        alert(res.data.Data.Message)
+        return Promise.reject(res.data.Data)
+      } else if (res.data.Data.hasOwnProperty('message')) {
+        alert(res.data.Data.message)
+        return Promise.reject(res.data.Data)
       }
+    } else if (res.hasOwnProperty('error')) {
+      alert(res.error)
+      return Promise.reject(res)
+    } else {
+      alert('出错啦')
+      return Promise.reject(res.data)
     }
   },
   error => {
