@@ -65,10 +65,9 @@ const createColumns = (payBill) => {
           NButton,
           {
             strong: true,
-            tertiary: true,
             size: 'small',
             disabled: row.statusCode === 1 || row.statusCode === -1,
-            onClick: payBill,
+            onClick: () => payBill(row),
           },
           {
             default: () =>
@@ -238,26 +237,6 @@ export default {
     async function getBill() {
       events.bill = []
       const res = await apiGetBill()
-      res.Data.bills = [
-        {
-          BillID: 1,
-          PayerID: 1,
-          Money: 1,
-          BillStatus: 1,
-        },
-        {
-          BillID: 2,
-          PayerID: 1,
-          Money: 100000,
-          BillStatus: 2,
-        },
-        {
-          BillID: 3,
-          PayerID: 1,
-          Money: 100,
-          BillStatus: -1,
-        },
-      ]
       for (const val of res.Data.bills) {
         events.bill.push({
           billId: val.BillID,
@@ -267,14 +246,15 @@ export default {
         })
       }
     }
-    async function payBill() {
-      message.success('支付成功')
-      // const res = await apiPayBill({
-      //   bill_id: row.billId,
-      // })
-      // if (res.Code === 0) {
-      //   useMessage().success('支付成功')
-      // }
+    async function payBill(row) {
+      const res = await apiPayBill({
+        bill_id: row.billId,
+      })
+      if (res.Code === 0) {
+        message.success('支付成功')
+        findUserInfo()
+        getBill()
+      }
     }
     findUserInfo()
     getBill()
