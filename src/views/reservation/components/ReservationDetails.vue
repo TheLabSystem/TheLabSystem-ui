@@ -30,8 +30,8 @@
               @click="selectTime(index)"
               :disabled="!num"
             >
-              {{ `${(index * 2).toString().padStart(2, '0')}:00 - ${((index + 1) * 2).toString().padStart(2, '0')}:00` }}
-              {{ `可用: ${num} 台` }}
+              {{ `${(index * 2).toString().padStart(2, '0')}:00-${((index + 1) * 2).toString().padStart(2, '0')}:00` }}
+              {{ `可用:${num}台` }}
             </NButton>
           </NSpace>
         </Col>
