@@ -1,5 +1,5 @@
 <template>
   <div>
-    首页
+    Thanks for choosing Sun-Equipment!
   </div>
 </template>
